@@ -32,12 +32,13 @@ def main():
 
     correct = 0
     for i in range(len(inputs)):
-        inpt = inputs[j]
-        pred = inpt.dot(weights)
-        if round(pred) == goals[i]:
+        inpt = inputs[i]
+        pred = inpt.dot(weights).round().astype(int)
+        goal = goals[i][0]
+        if pred == goal:
             correct += 1
 
-    accuracy = correct / len(inputs) * 100
+    accuracy = correct / len(goals) * 100
     print(f'accuracy: {accuracy:.3f}%')
 
 
