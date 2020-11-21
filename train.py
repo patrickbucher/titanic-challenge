@@ -8,14 +8,15 @@ def main():
     train = pd.read_csv('csv/train.csv')
     goals = pd.DataFrame({'survived': train['Survived']})
     train = prepare_train(train)
+    print(train)
 
     goals = goals.to_numpy()
     inputs = train.to_numpy()
 
-    weights = np.array([1/4, 1/4, 1/4, 1/4])
-    alpha = 1e-3
+    weights = np.array([1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8])
+    alpha = 1e-4
 
-    for i in range(10_000):
+    for i in range(500):
         for j in range(len(inputs)):
             goal = goals[j][0]
             inpt = inputs[j]
@@ -28,7 +29,9 @@ def main():
 
             weights += adjustments
 
-    print('weights', weights)
+    weight_strings = [f'{w:.6f}' for w in weights.tolist()]
+    weight_str = ', '.join(weight_strings)
+    print(f'weights = np.array([{weight_str}])')
 
     correct = 0
     for i in range(len(inputs)):
@@ -48,6 +51,10 @@ def prepare_train(df):
         'sex': df['Sex'].map({'male': 0, 'female': 1}),
         'age': df['Age'] / max(df['Age']),
         'fare': df['Fare'] / max(df['Fare']),
+        'sibsp': df['SibSp'] / max(df['SibSp']),
+        'parch': df['Parch'] / max(df['Parch']),
+        'wife': df['Name'].str.contains('Mrs.').astype(int),
+        'cabin': df['Cabin'].str.match('[ABC][0-9]+').fillna(False).astype(int),
     })
     df['age'] = df['age'].fillna(df['age'].mean())
     return df

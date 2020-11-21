@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-weights = np.array([0.01200623, 0.56444341, 0.24316459, 0.9375338])
+weights = np.array([0.063684, 0.551438, 0.169129, 0.301112, -0.088065, -0.020625, 0.066380, 0.227128])
 
 def main():
     test = pd.read_csv('csv/test.csv')
@@ -33,8 +33,12 @@ def prepare_test(df):
         'id': df['PassengerId'],
         'class': df['Pclass'] / max(df['Pclass']),
         'sex': df['Sex'].map({'male': 0, 'female': 1}),
-        'age': df['Age'].fillna(df['Age'].mean()) / max(df['Age']),
+        'age': df['Age'] / max(df['Age']),
         'fare': df['Fare'] / max(df['Fare']),
+        'sibsp': df['SibSp'] / max(df['SibSp']),
+        'parch': df['Parch'] / max(df['Parch']),
+        'wife': df['Name'].str.contains('Mrs.').astype(int),
+        'cabin': df['Cabin'].str.match('[ABC][0-9]+').fillna(False).astype(int),
     })
     return df
 
