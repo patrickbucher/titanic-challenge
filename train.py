@@ -14,9 +14,9 @@ def main():
     inputs = train.to_numpy()
 
     weights = np.array([1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8])
-    alpha = 1e-4
+    alpha = 1e-3
 
-    for i in range(500):
+    for i in range(100):
         for j in range(len(inputs)):
             goal = goals[j][0]
             inpt = inputs[j]
