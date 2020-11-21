@@ -13,7 +13,7 @@ def main():
     inputs = train.to_numpy()
 
     weights = np.array([1/4, 1/4, 1/4, 1/4])
-    alpha = 1e-4
+    alpha = 1e-3
 
     for i in range(10_000):
         for j in range(len(inputs)):

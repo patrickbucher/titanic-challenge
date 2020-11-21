@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-weights = np.array([0.30464707, 0.01079016, 0.2445885, 0.87400568])
+weights = np.array([0.01200623, 0.56444341, 0.24316459, 0.9375338])
 
 def main():
     test = pd.read_csv('csv/test.csv')
