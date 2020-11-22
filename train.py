@@ -13,10 +13,10 @@ def main():
     goals = goals.to_numpy()
     inputs = train.to_numpy()
 
-    weights = np.zeros(8)
-    alpha = 1e-3
+    weights = np.zeros(inputs.shape[1])
+    alpha = 1e-4
 
-    for i in range(100):
+    for i in range(1000):
         for j in range(len(inputs)):
             goal = goals[j][0]
             inpt = inputs[j]
@@ -55,8 +55,10 @@ def prepare_train(df):
         'parch': df['Parch'] / max(df['Parch']),
         'wife': df['Name'].str.contains('Mrs.').astype(int),
         'cabin': df['Cabin'].str.match('[ABC][0-9]+').fillna(False).astype(int),
+        'embarked': df['Embarked'].map({'S': 0, 'C': 1/2, 'Q': 1}),
     })
     df['age'] = df['age'].fillna(df['age'].mean())
+    df['embarked'] = df['embarked'].fillna(0)
     return df
 
 
