@@ -13,7 +13,7 @@ def main():
     goals = goals.to_numpy()
     inputs = train.to_numpy()
 
-    weights = np.array([1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8])
+    weights = np.zeros(8)
     alpha = 1e-3
 
     for i in range(100):
@@ -47,9 +47,9 @@ def main():
 
 def prepare_train(df):
     df = pd.DataFrame({
-        'class': df['Pclass'] / max(df['Pclass']),
+        'class': 1 - df['Pclass'] / max(df['Pclass']),
         'sex': df['Sex'].map({'male': 0, 'female': 1}),
-        'age': df['Age'] / max(df['Age']),
+        'age': 1 - df['Age'] / max(df['Age']),
         'fare': df['Fare'] / max(df['Fare']),
         'sibsp': df['SibSp'] / max(df['SibSp']),
         'parch': df['Parch'] / max(df['Parch']),
