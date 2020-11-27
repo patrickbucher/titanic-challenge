@@ -16,9 +16,9 @@ def main():
     inputs = train.to_numpy()
 
     weights = np.zeros(inputs.shape[1])
-    alpha = 1e-4
+    alpha = 1e-5
 
-    for i in range(100):
+    for i in range(1000):
         for j in range(len(inputs)):
             goal = goals[j][0]
             inpt = inputs[j]
