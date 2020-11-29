@@ -25,11 +25,11 @@ def main():
 
             pred = inpt.dot(weights)
 
-            delta = goal - pred
+            delta = pred - goal
             weigh_delta = delta * inpt
             adjustments = weigh_delta * alpha
 
-            weights += adjustments
+            weights -= adjustments
 
     correct = 0
     for i in range(len(inputs)):
