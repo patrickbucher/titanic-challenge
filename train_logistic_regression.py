@@ -16,15 +16,15 @@ def main():
     inputs = train.to_numpy()
 
     theta = np.zeros((inputs.shape[1], 1))
-    alpha = 1e-5
+    alpha = 0.003
 
     y = goals
-    for i in range(1000):
+    for i in range(10_000):
         m = len(inputs)
         x = inputs
         h = theta.transpose().dot(x.transpose())
         p = sigmoid(h.transpose())
-        theta -= alpha/m * x.transpose().dot((p - y))
+        theta -= (alpha/m) * x.transpose().dot((p - y))
 
     predictions = sigmoid(x.dot(theta))
     predictions[:,0] = predictions[:,0].round()
