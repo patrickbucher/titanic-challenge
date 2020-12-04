@@ -21,7 +21,6 @@ def main():
     for i in range(len(test)):
         id = int(test[i][0])
         inpt = test[i][1:] # ignore id column
-        # TODO: predict
         pred = sigmoid(inpt.dot(weights))
         submission = submission.append({
             'PassengerId': id,
