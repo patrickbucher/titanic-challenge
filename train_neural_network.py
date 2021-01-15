@@ -40,8 +40,8 @@ def main():
     y = goals.to_numpy().T
 
     # initialize hyperparameters
-    alpha = 0.0001
-    iters = int(1e2)
+    alpha = 0.001
+    iters = int(1e3)
     batch = int(iters / 10)
     m = x.shape[1]
     n_x = x.shape[0]
@@ -68,7 +68,7 @@ def main():
 
         # calculate cost
         if i % batch == 0:
-            j = cost(a2, y)
+            j = cost(a3, y)
             print(j)
 
         # backward propagation
@@ -106,7 +106,7 @@ def main():
 
     submission = pd.DataFrame({
         'PassengerId': np.array(ids, dtype=np.int),
-        'Survived': np.array(a2.T[:,0], dtype=np.int),
+        'Survived': np.array(a3.T[:,0], dtype=np.int),
     })
     print(submission)
 
