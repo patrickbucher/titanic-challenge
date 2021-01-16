@@ -49,7 +49,6 @@ def main():
     n_y = 1
 
     # initialize parameters
-    #np.random.seed(1)
     w1 = np.random.randn(n_h, n_x) * 0.01
     b1 = np.zeros((n_h, 1))
     w2 = np.random.randn(n_h, n_h) * 0.01
