@@ -40,22 +40,24 @@ def main():
     y = goals.to_numpy().T
 
     # initialize hyperparameters
-    alpha = 0.5
-    iters = int(2e3)
+    alpha = 0.11
+    iters = int(2e4)
     batch = int(iters / 10)
     m = x.shape[1]
     n_x = x.shape[0]
-    n_h = 20  # wild guess...
+    n_h = 25  # wild guess...
     n_y = 1
 
     # initialize parameters
-    np.random.seed(1)
+    #np.random.seed(1)
     w1 = np.random.randn(n_h, n_x) * 0.01
     b1 = np.zeros((n_h, 1))
     w2 = np.random.randn(n_h, n_h) * 0.01
     b2 = np.zeros((n_h, 1))
-    w3 = np.random.randn(n_y, n_h) * 0.01
-    b3 = np.zeros((n_y, 1))
+    w3 = np.random.randn(n_h, n_h) * 0.01
+    b3 = np.zeros((n_h, 1))
+    w4 = np.random.randn(n_y, n_h) * 0.01
+    b4 = np.zeros((n_y, 1))
 
     for i in range(iters):
 
@@ -65,27 +67,38 @@ def main():
         z2 = w2.dot(a1) + b2
         a2 = relu(z2)
         z3 = w3.dot(a2) + b3
-        a3 = sigmoid(z3)
+        a3 = relu(z3)
+        z4 = w4.dot(a3) + b4
+        a4 = sigmoid(z4)
 
         # calculate cost
         if i % batch == 0:
-            j = cost(a3, y)
+            j = cost(a4, y)
             print(j)
 
         # backward propagation
-        da3 = - (np.divide(y, a3) - np.divide(1 - y, 1 - a3))
-        dz3 = da3 * d1_sigmoid(z3)
+        da4 = - (np.divide(y, a4) - np.divide(1 - y, 1 - a4))
+        dz4 = da4 * d1_sigmoid(z4)
+        dw4 = (1/m) * dz4.dot(a2.T)
+        db4 = (1/m) * np.sum(dz4, axis=1, keepdims=True)
+
+        da3 = w4.T.dot(dz4)
+        dz3 = da3 * d1_relu(z3)
         dw3 = (1/m) * dz3.dot(a2.T)
         db3 = (1/m) * np.sum(dz3, axis=1, keepdims=True)
+
         da2 = w3.T.dot(dz3)
         dz2 = da2 * d1_relu(z2)
         dw2 = (1/m) * dz2.dot(a1.T)
         db2 = (1/m) * np.sum(dz2, axis=1, keepdims=True)
+
         da1 = w2.T.dot(dz2)
         dz1 = da1 * d1_relu(z1)
         dw1 = (1/m) * dz1.dot(x.T)
         db1 = (1/m) * np.sum(dz1, axis=1, keepdims=True)
 
+        w4 -= alpha * dw4
+        b4 -= alpha * db4
         w3 -= alpha * dw3
         b3 -= alpha * db3
         w2 -= alpha * dw2
@@ -104,8 +117,10 @@ def main():
     z2 = w2.dot(a1) + b2
     a2 = relu(z2)
     z3 = w3.dot(a2) + b3
-    a3 = sigmoid(z3)
-    y = np.around(a3)
+    a3 = relu(z3)
+    z4 = w4.dot(a3) + b4
+    a4 = sigmoid(z4)
+    y = np.around(a4)
 
     submission = pd.DataFrame({
         'PassengerId': np.array(ids, dtype=np.int),
