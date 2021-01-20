@@ -1,0 +1,1 @@
+- [ ] normalize test data with same mean and variance as training data
