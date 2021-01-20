@@ -40,8 +40,8 @@ def main():
     y = goals.to_numpy().T
 
     # initialize hyperparameters
-    alpha = 0.11
-    iters = int(2e4)
+    alpha = 0.05
+    iters = int(1e4)
     batch = int(iters / 10)
     m = x.shape[1]
     n_x = x.shape[0]
@@ -49,13 +49,13 @@ def main():
     n_y = 1
 
     # initialize parameters
-    w1 = np.random.randn(n_h, n_x) * 0.01
+    w1 = np.random.randn(n_h, n_x) * np.sqrt(2/n_h)
     b1 = np.zeros((n_h, 1))
-    w2 = np.random.randn(n_h, n_h) * 0.01
+    w2 = np.random.randn(n_h, n_h) * np.sqrt(2/n_h)
     b2 = np.zeros((n_h, 1))
-    w3 = np.random.randn(n_h, n_h) * 0.01
+    w3 = np.random.randn(n_h, n_h) * np.sqrt(2/n_h)
     b3 = np.zeros((n_h, 1))
-    w4 = np.random.randn(n_y, n_h) * 0.01
+    w4 = np.random.randn(n_y, n_h) * np.sqrt(1/n_h)
     b4 = np.zeros((n_y, 1))
 
     for i in range(iters):
